@@ -34,9 +34,9 @@ def login(request):
         password = request.POST['password']
         
         user = auth.authenticate(username = username, password = password)
-        if user is not None:
+        if user is not None and user.is_customer:
             auth.login(request, user)
-            #messages.success(request, "You've logged in successfully")
+            messages.success(request, "You've logged in successfully")
             return redirect('dashboard')
         else:
             messages.error(request, "Invalid Credentials")
@@ -44,8 +44,9 @@ def login(request):
     
     return render(request, 'login.html')
 
+@login_required(login_url = 'login')
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    return render(request, 'customer/dashboard.html')
 
 @login_required(login_url = 'login')    
 def logout(request):
