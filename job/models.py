@@ -19,7 +19,7 @@ class Job(models.Model):
     pickup_address = models.CharField(max_length=150, blank=True)
     user = models.ForeignKey(Account, on_delete=models.RESTRICT, related_name='user_submitted')
     status = models.ForeignKey(JobStatus, on_delete=models.RESTRICT)
-    staff = models.ForeignKey(Account, on_delete=models.RESTRICT, related_name='staff_assigned', blank=True)
+    staff = models.ForeignKey(Account, on_delete=models.RESTRICT, related_name='staff_assigned', blank=True, null=True)
     created_at  = models.DateTimeField(auto_now_add=True,)
     updated_at  = models.DateTimeField(auto_now = True)
     
