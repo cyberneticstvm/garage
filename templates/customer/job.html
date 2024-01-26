@@ -1,0 +1,68 @@
+{% extends 'customer/base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12">{% include 'alert.html' %}</div>
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    {% include 'alert.html' %}
+                    <form method="post" action="{% url 'create' %}" class="forms-sample">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Brand Name</label>
+                                    {{ form.brand_name }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Model Name</label>
+                                    {{ form.model_name }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Make Year</label>
+                                    {{ form.make_year }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Color</label>
+                                    {{ form.color }}
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Pickup Required</label>
+                                    {{ form.pickup_required }}
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Pickup Address</label>
+                                    {{ form.pickup_address }}
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Job / Complaint</label>
+                                    {{ form.job_description }}
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary me-2">Submit</button>
+                        <a class="btn btn-light" onclick="window.history.back()">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content-wrapper ends -->
+
+{% endblock %}

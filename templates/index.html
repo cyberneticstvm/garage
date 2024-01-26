@@ -230,11 +230,10 @@
                                     Callback</h2>
                                 <p class="custom-font-secondary text-4 pb-1 mb-4">Enter your details in the form and we
                                     will call you back.</p>
-                                <form class="contact-form custom-form-style-1" action="php/contact-form.php"
-                                    method="POST">
-                                    <div class="contact-form-success alert alert-success d-none mt-4">
-                                        <strong>Success!</strong> Your request has been sent to us.
-                                    </div>
+                                <form class="custom-form-style-1" action="{% url 'index' %}" method="POST">
+                                    {% csrf_token %}
+
+                                    {% include 'alert.html' %}
 
                                     <div class="contact-form-error alert alert-danger d-none mt-4">
                                         <strong>Error!</strong> There was an error sending your request.
@@ -252,7 +251,7 @@
                                         <div class="form-group col pb-1 mb-3">
                                             <input type="text" value=""
                                                 data-msg-required="Please enter your phone number." maxlength="10"
-                                                class="form-control" name="phone" placeholder="Your Phone Number"
+                                                class="form-control" name="mobile" placeholder="Your Phone Number"
                                                 required>
                                         </div>
                                     </div>
