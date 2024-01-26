@@ -12,7 +12,7 @@ def create(request):
     if request.method == 'POST':
         form = JobForm(request.POST)
         if form.is_valid():
-            job_id = 'JOB-'+ str(random.randrange(1, 10000))
+            job_id = 'JOB-'+ str(random.randrange(10000, 99999))
             brand_name = form.cleaned_data['brand_name']
             model_name = form.cleaned_data['model_name']
             make_year = form.cleaned_data['make_year']

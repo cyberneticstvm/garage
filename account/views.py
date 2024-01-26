@@ -36,15 +36,9 @@ def login(request):
         
         user = auth.authenticate(username = username, password = password)
         if user is not None and user.is_customer:
-            auth.login(request, user)
-            try:
-                jobs = Job.objects.filter(user_id = request.user.id)
-            except Job.DoesNotExist:
-                jobs = None
-            context = {'jobs': jobs,} 
+            auth.login(request, user)            
             messages.success(request, "You've logged in successfully")
-            #return redirect('dashboard', context)
-            return render(request, 'customer/dashboard.html', context)
+            return redirect('dashboard')            
         else:
             messages.error(request, "Invalid Credentials")
             return redirect('login')
@@ -53,7 +47,12 @@ def login(request):
 
 @login_required(login_url = 'login')
 def dashboard(request):
-    return render(request, 'customer/dashboard.html')
+    try:
+        jobs = Job.objects.filter(user_id = request.user.id)
+    except Job.DoesNotExist:
+        jobs = None
+    context = {'jobs': jobs,}
+    return render(request, 'customer/dashboard.html', context)
 
 @login_required(login_url = 'login')    
 def logout(request):
