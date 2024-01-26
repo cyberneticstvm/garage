@@ -34,7 +34,9 @@
                     <div class="tab-pane fade show active" id="alljobs" role="tabpanel" aria-labelledby="alljobs">
                         <div class="row">
                             <div class="col-sm-12">
-                                All Jobs
+                                {% for i in jobs %}
+                                {{ i.job_id }}
+                                {% endfor %}
                             </div>
                         </div>
                     </div>

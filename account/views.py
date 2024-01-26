@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import RegistrationForm
 from .models import Account
+from job.models import Job
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 
@@ -36,8 +37,14 @@ def login(request):
         user = auth.authenticate(username = username, password = password)
         if user is not None and user.is_customer:
             auth.login(request, user)
+            try:
+                jobs = Job.objects.filter(user_id = request.user.id)
+            except Job.DoesNotExist:
+                jobs = None
+            context = {'jobs': jobs,} 
             messages.success(request, "You've logged in successfully")
-            return redirect('dashboard')
+            #return redirect('dashboard', context)
+            return render(request, 'customer/dashboard.html', context)
         else:
             messages.error(request, "Invalid Credentials")
             return redirect('login')

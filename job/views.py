@@ -25,8 +25,8 @@ def create(request):
             staff = None
             Job.objects.create(job_id=job_id, brand_name=brand_name, model_name=model_name, make_year=make_year, color=color, pickup_required=pickup_required, pickup_address=pickup_address, job_description=job_description, user=user, status=status, staff=staff)
             messages.success(request, 'Service Request Submitted Successfully')
-            return redirect('create')
+            return redirect('dashboard')
     else:
-        form = JobForm()
+        form = JobForm()        
     context = {'form': form,}
     return render(request, 'customer/job.html', context)
