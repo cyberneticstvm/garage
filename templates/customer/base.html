@@ -6,7 +6,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Star Admin2 </title>
+    <title>Super Car Garage </title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{% static '/admin/assets/vendors/feather/feather.css' %}">
     <link rel="stylesheet" href="{% static '/admin/assets/vendors/mdi/css/materialdesignicons.min.css' %}">
@@ -70,16 +70,17 @@
                     </li>
                     <li class="nav-item dropdown d-none d-lg-block user-dropdown">
                         <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img class="img-xs rounded-circle" src="{% static '/admin/assets/images/faces/face8.jpg' %}"
-                                alt="Profile image"> </a>
+                            <img class="img-xs rounded-circle"
+                                src="{% static '/admin/assets/images/faces/avatar.png' %}" alt="Profile image"> </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                             <div class="dropdown-header text-center">
                                 <img class="img-md rounded-circle"
-                                    src="{% static '/admin/assets/images/faces/face8.jpg' %}" alt="Profile image">
+                                    src="{% static '/admin/assets/images/faces/avatar.png' %}" alt="Profile image"
+                                    style="width: 50%;">
                                 <p class="mb-1 mt-3 font-weight-semibold">{{user.first_name}}</p>
                                 <p class="fw-light text-muted mb-0">{{user.email}}</p>
                             </div>
-                            <a class="dropdown-item"><i
+                            <a class="dropdown-item" href="{% url 'edit' %}"><i
                                     class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile
                                 <span class="badge badge-pill badge-danger">1</span></a>
                             <a class="dropdown-item" href="{% url 'logout' %}"><i
@@ -128,7 +129,7 @@
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item nav-category">Jobs</li>
+                    <!--<li class="nav-item nav-category">Jobs</li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
                             aria-controls="ui-basic">
@@ -144,7 +145,7 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item nav-category">Settings</li>
+                    <li class="nav-item nav-category">Settings</li>-->
                 </ul>
             </nav>
             <!-- partial -->

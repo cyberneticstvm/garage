@@ -17,6 +17,7 @@ class Job(models.Model):
     job_description = models.TextField(blank=True)
     pickup_required = models.BooleanField(default=False)
     pickup_address = models.CharField(max_length=150, blank=True)
+    pickup_date = models.DateField(blank=True, null=True)
     user = models.ForeignKey(Account, on_delete=models.RESTRICT, related_name='user_submitted')
     status = models.ForeignKey(JobStatus, on_delete=models.RESTRICT)
     staff = models.ForeignKey(Account, on_delete=models.RESTRICT, related_name='staff_assigned', blank=True, null=True)

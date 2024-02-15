@@ -19,11 +19,12 @@ def create(request):
             color = form.cleaned_data['color']
             pickup_required = form.cleaned_data['pickup_required']
             pickup_address = form.cleaned_data['pickup_address']
+            pickup_date = form.cleaned_data['pickup_date']
             job_description = form.cleaned_data['job_description']
             user = Account.objects.get(id=request.user.id)
             status = JobStatus.objects.get(id=1)
             staff = None
-            Job.objects.create(job_id=job_id, brand_name=brand_name, model_name=model_name, make_year=make_year, color=color, pickup_required=pickup_required, pickup_address=pickup_address, job_description=job_description, user=user, status=status, staff=staff)
+            Job.objects.create(job_id=job_id, brand_name=brand_name, model_name=model_name, make_year=make_year, color=color, pickup_required=pickup_required, pickup_address=pickup_address, pickup_date=pickup_date, job_description=job_description, user=user, status=status, staff=staff)
             messages.success(request, 'Service Request Submitted Successfully')
             return redirect('dashboard')
     else:

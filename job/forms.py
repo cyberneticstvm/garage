@@ -6,10 +6,13 @@ class JobForm(forms.ModelForm):
     pickup_required = forms.CharField(
         widget=forms.Select(choices={'1': 'Yes', '0': 'No'}),
     )
+    pickup_date = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date',}),
+    )
     
     class Meta:
         model = Job
-        fields = ['brand_name', 'model_name', 'make_year', 'color', 'job_description', 'pickup_required', 'pickup_address']
+        fields = ['brand_name', 'model_name', 'make_year', 'color', 'job_description', 'pickup_required', 'pickup_address', 'pickup_date']
         
     def clean(self):
         cleaned_data = super(JobForm, self).clean()

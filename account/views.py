@@ -28,6 +28,22 @@ def register(request):
         form = RegistrationForm()
     context = {'form': form,} 
     return render(request, 'register.html', context)
+
+def edit(request):
+    form = RegistrationForm(instance=request.user)
+    context = {'form': form,}
+    return render(request, 'customer/profile-edit.html', context)
+
+def update(request):
+    first_name = request.POST.get('first_name')
+    last_name = request.POST.get('last_name')
+    username = request.POST.get('username')
+    email = request.POST.get('email')
+    phone_number = request.POST.get('phone_number')           
+    
+    Account.objects.filter(id=request.user.id).update(first_name = first_name, last_name = last_name, email = email, phone_number = phone_number, username = username)       
+    messages.success(request, "Customer Details Updated Successfully")
+    return redirect('dashboard')
     
 def login(request):
     if request.method == "POST":
