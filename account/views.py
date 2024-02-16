@@ -4,6 +4,7 @@ from .models import Account
 from job.models import Job
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
+from django import forms
 
 # Create your views here.
 
@@ -32,7 +33,10 @@ def register(request):
 def edit(request):
     form = RegistrationForm(instance=request.user)
     context = {'form': form,}
-    return render(request, 'customer/profile-edit.html', context)
+    if request.user.is_staff:
+        return render(request, 'staff/profile-edit.html', context)
+    else:
+        return render(request, 'customer/profile-edit.html', context)
 
 def update(request):
     first_name = request.POST.get('first_name')
@@ -43,7 +47,27 @@ def update(request):
     
     Account.objects.filter(id=request.user.id).update(first_name = first_name, last_name = last_name, email = email, phone_number = phone_number, username = username)       
     messages.success(request, "Customer Details Updated Successfully")
-    return redirect('dashboard')
+    if request.user.is_staff:
+        return redirect('staffdashboard')
+    else:
+        return redirect('dashboard')
+
+def changePassword(request):
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+        if password != confirm_password:
+            raise forms.ValidationError("Password does not match with confirm password")
+        user = Account.objects.get(id=request.user.id)
+        user.set_password(password)
+        user.save()
+        messages.success(request, "Password Updated Successfully")
+        return redirect('dashboard')
+    else:
+        if request.user.is_staff:
+            return render(request, 'staff/change-password.html')
+        else:
+            return render(request, 'customer/change-password.html')
     
 def login(request):
     if request.method == "POST":
@@ -55,6 +79,10 @@ def login(request):
             auth.login(request, user)            
             messages.success(request, "You've logged in successfully")
             return redirect('dashboard')            
+        elif user is not None and user.is_staff:
+            auth.login(request, user)            
+            messages.success(request, "You've logged in successfully")
+            return redirect('staffdashboard')
         else:
             messages.error(request, "Invalid Credentials")
             return redirect('login')
@@ -69,6 +97,15 @@ def dashboard(request):
         jobs = None
     context = {'jobs': jobs,}
     return render(request, 'customer/dashboard.html', context)
+
+@login_required(login_url = 'login')
+def staffdashboard(request):
+    try:
+        jobs = Job.objects.filter(staff_id = request.user.id)
+    except Job.DoesNotExist:
+        jobs = None
+    context = {'jobs': jobs,}
+    return render(request, 'staff/dashboard.html', context)
 
 @login_required(login_url = 'login')    
 def logout(request):

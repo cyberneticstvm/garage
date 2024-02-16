@@ -1,0 +1,174 @@
+{% extends 'staff/base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12">{% include 'alert.html' %}</div>
+        <div class="col-sm-12">
+            <div class="home-tab">
+                <div class="d-sm-flex align-items-center justify-content-between border-bottom">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active ps-0" id="home-tab" data-bs-toggle="tab" href="#alljobs"
+                                role="tab" aria-controls="alljobs" aria-selected="true">All Jobs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#pendingjobs" role="tab"
+                                aria-selected="false">Pending Jobs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#completedjobs" role="tab"
+                                aria-selected="false">Completed Jobs</a>
+                        </li>
+                    </ul>
+                    <div>
+                        <div class="btn-wrapper">
+                            <a href="{% url 'create' %}" class="btn btn-primary text-white me-0"><i
+                                    class="icon-plus"></i>
+                                Create Job</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content tab-content-basic">
+                    <div class="tab-pane fade show active" id="alljobs" role="tabpanel" aria-labelledby="alljobs">
+                        <div class="row">
+                            <div class="col-lg-12 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body table-responsive">
+                                        <h4 class="card-title">All Jobs</h4>
+                                        <table class="order-listing table table-sm table-striped" id="">
+                                            <thead>
+                                                <tr>
+                                                    <th>Job ID</th>
+                                                    <th>Brand</th>
+                                                    <th>Model</th>
+                                                    <th>Make Year</th>
+                                                    <th>Color</th>
+                                                    <th>Description</th>
+                                                    <th>Pickup Date</th>
+                                                    <th>Job Assigned to</th>
+                                                    <th>Status</th>
+                                                    <th>Submitted On</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for i in jobs %}
+                                                <tr>
+                                                    <td>{{ i.job_id }}</td>
+                                                    <td>{{ i.brand_name }}</td>
+                                                    <td>{{ i.model_name }}</td>
+                                                    <td>{{ i.make_year }}</td>
+                                                    <td>{{ i.color }}</td>
+                                                    <td>{{ i.job_description }}</td>
+                                                    <td>{{ i.pickup_date }}</td>
+                                                    <td>{{ i.staff }}</td>
+                                                    <td>{{ i.status }}</td>
+                                                    <td>{{ i.created_at }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show" id="pendingjobs" role="tabpanel" aria-labelledby="pendingjobs">
+                        <div class="row">
+                            <div class="col-lg-12 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body table-responsive">
+                                        <h4 class="card-title">Pending Jobs</h4>
+                                        <table class="order-listing table table-sm table-striped" id="">
+                                            <thead>
+                                                <tr>
+                                                    <th>Job ID</th>
+                                                    <th>Brand</th>
+                                                    <th>Model</th>
+                                                    <th>Make Year</th>
+                                                    <th>Color</th>
+                                                    <th>Description</th>
+                                                    <th>Pickup Date</th>
+                                                    <th>Job Assigned to</th>
+                                                    <th>Status</th>
+                                                    <th>Submitted On</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for i in jobs %}
+                                                {% if i.status|stringformat:"s" == "Pending" %}
+                                                <tr>
+                                                    <td>{{ i.job_id }}</td>
+                                                    <td>{{ i.brand_name }}</td>
+                                                    <td>{{ i.model_name }}</td>
+                                                    <td>{{ i.make_year }}</td>
+                                                    <td>{{ i.color }}</td>
+                                                    <td>{{ i.job_description }}</td>
+                                                    <td>{{ i.pickup_date }}</td>
+                                                    <td>{{ i.staff }}</td>
+                                                    <td>{{ i.status }}</td>
+                                                    <td>{{ i.created_at }}</td>
+                                                </tr>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show" id="completedjobs" role="tabpanel" aria-labelledby="completedjobs">
+                        <div class="row">
+                            <div class="col-lg-12 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body table-responsive">
+                                        <h4 class="card-title">Completed Jobs</h4>
+                                        <table class="order-listing table table-sm table-striped" id="">
+                                            <thead>
+                                                <tr>
+                                                    <th>Job ID</th>
+                                                    <th>Brand</th>
+                                                    <th>Model</th>
+                                                    <th>Make Year</th>
+                                                    <th>Color</th>
+                                                    <th>Description</th>
+                                                    <th>Pickup Date</th>
+                                                    <th>Job Assigned to</th>
+                                                    <th>Status</th>
+                                                    <th>Submitted On</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for i in jobs %}
+                                                {% if i.status|stringformat:"s" == "Completed" %}
+                                                <tr>
+                                                    <td>{{ i.job_id }}</td>
+                                                    <td>{{ i.brand_name }}</td>
+                                                    <td>{{ i.model_name }}</td>
+                                                    <td>{{ i.make_year }}</td>
+                                                    <td>{{ i.color }}</td>
+                                                    <td>{{ i.job_description }}</td>
+                                                    <td>{{ i.pickup_date }}</td>
+                                                    <td>{{ i.staff }}</td>
+                                                    <td>{{ i.status }}</td>
+                                                    <td>{{ i.created_at }}</td>
+                                                </tr>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content-wrapper ends -->
+
+{% endblock %}

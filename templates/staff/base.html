@@ -37,10 +37,10 @@
                     </button>
                 </div>
                 <div>
-                    <a class="navbar-brand brand-logo" href="{% url 'dashboard' %}">
+                    <a class="navbar-brand brand-logo" href="{% url 'staffdashboard' %}">
                         <img src="{% static '/admin/assets/images/logo.webp' %}" alt="logo" />
                     </a>
-                    <a class="navbar-brand brand-logo-mini" href="{% url 'dashboard' %}">
+                    <a class="navbar-brand brand-logo-mini" href="{% url 'staffdashboard' %}">
                         <img src="{% static '/admin/assets/images/favicon.png' %}" alt="logo" />
                     </a>
                 </div>
@@ -127,28 +127,28 @@
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'dashboard' %}">
+                        <a class="nav-link" href="{% url 'staffdashboard' %}">
                             <i class="mdi mdi-grid-large menu-icon"></i>
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
-                    <!--<li class="nav-item nav-category">Jobs</li>
+                    <li class="nav-item nav-category">Spare Parts</li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
                             aria-controls="ui-basic">
                             <i class="menu-icon mdi mdi-floor-plan"></i>
-                            <span class="menu-title">Job List</span>
+                            <span class="menu-title">Spare Parts</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="ui-basic">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="#">Buttons</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="#">Dropdowns</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="#">Typography</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{% url 'listsp' %}">Spare Parts List</a>
+                                </li>
+                                <li class="nav-item"> <a class="nav-link" href="{% url 'createsp' %}">New Spare Part</a>
+                                </li>
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item nav-category">Settings</li>-->
                 </ul>
             </nav>
             <!-- partial -->
@@ -160,7 +160,7 @@
                 <footer class="footer">
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
                         <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Customer Portal <a
-                                href="{% url 'dashboard' %}" target="_blank"> Super Car Garage</a></span>
+                                href="{% url 'staffdashboard' %}" target="_blank"> Super Car Garage</a></span>
                         <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright © 2024. All
                             rights reserved.</span>
                     </div>

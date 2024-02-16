@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'web',
     'account',
     'job',
+    'spareparts',
 ]
 
 MIDDLEWARE = [

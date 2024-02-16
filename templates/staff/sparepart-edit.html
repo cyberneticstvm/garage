@@ -1,0 +1,34 @@
+{% extends 'staff/base.html' %}
+{% block content %}
+{% load static %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    {% include 'alert.html' %}
+                    <form method="post" action="{% url 'editsp' id %}" class="forms-sample">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Spare Part Name</label>
+                                    {{ form.spare_part_name }}
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Cost / Unit</label>
+                                    {{ form.cost_per_unit }}
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary me-2">Update</button>
+                        <a class="btn btn-light" onclick="window.history.back()">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

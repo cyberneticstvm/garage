@@ -19,12 +19,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('register', views.register, name='register'),
-    path('edit', views.edit, name='edit'),
-    path('update', views.update, name='update'),
-    path('login', views.login, name='login'),
-    path('dashboard', views.dashboard, name='dashboard'),
-    path('staffdashboard', views.staffdashboard, name='staffdashboard'),
-    path('changepassword', views.changePassword, name='changepwd'),
-    path('logout', views.logout, name='logout'),
+    path('create', views.create, name='createsp'),
+    path('list', views.list, name='listsp'),
+    path('edit/<id>', views.edit, name='editsp'),
+    path('delete/<id>', views.delete, name='deletesp'),
 ]

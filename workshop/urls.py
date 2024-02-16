@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('web.urls')),
     path('accounts/', include('account.urls')),
     path('job/', include('job.urls')),
+    path('spareparts/', include('spareparts.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 admin.site.site_header = "Super Car Garage Admin"
