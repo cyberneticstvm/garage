@@ -20,4 +20,7 @@ from . import views
 
 urlpatterns = [
     path('create', views.create, name='create'),
+    path('job-spare-parts/<id>', views.jobspareparts, name='jobspareparts'),
+    path('job-spare-parts-create/<id>', views.jobsparepartscreate, name='jobsparepartscreate'),
+    path('job-spare-parts-delete/<id>', views.jobsparepartsdelete, name='jobsparepartsdelete'),
 ]

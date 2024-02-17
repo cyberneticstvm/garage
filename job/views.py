@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
-from .forms import JobForm
-from .models import Job, Account, JobStatus
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import JobForm, JobSparePartsForm
+from .models import Job, Account, JobStatus, JobSparePart
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import random
@@ -31,3 +31,39 @@ def create(request):
         form = JobForm()        
     context = {'form': form,}
     return render(request, 'customer/job.html', context)
+
+
+@login_required(login_url = 'login')
+def jobspareparts(request, id):
+    job = get_object_or_404(Job, id=id)
+    spareparts = JobSparePart.objects.filter(job_id=id)
+    context = {'job' : job, 'spareparts' : spareparts}
+    return render(request, 'staff/job-spare-parts.html', context)
+        
+    
+@login_required(login_url = 'login')
+def jobsparepartscreate(request, id):
+    job = get_object_or_404(Job, id=id)
+    if request.method == "POST":
+        form = JobSparePartsForm(request.POST)
+        if form.is_valid():
+            spare_part_id = form.cleaned_data['spare_part_id']
+            qty = form.cleaned_data['qty']
+            cost_per_unit = form.cleaned_data['cost_per_unit']
+            total = qty*cost_per_unit
+            staff = get_object_or_404(Account, id=request.user.id)
+            JobSparePart.objects.create(job_id=job, spare_part_id=spare_part_id, qty=qty, cost_per_unit=cost_per_unit, total=total, staff=staff)
+            messages.success(request, 'Spare Part Updated Successfully')
+            return redirect('jobspareparts', id)
+    else:
+        form = JobSparePartsForm()
+        context = {'job' : job, 'form' : form}
+        return render(request, 'staff/job-spare-parts-create.html', context)
+    
+@login_required(login_url = 'login')    
+def jobsparepartsdelete(request, id):
+    obj = get_object_or_404(JobSparePart, id=id)
+    job = get_object_or_404(Job, job_id=obj.job_id)
+    obj.delete()
+    messages.success(request, "Spareparts Deleted Successfully")
+    return redirect('jobspareparts', job.id)  

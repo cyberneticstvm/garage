@@ -99,7 +99,7 @@
                                                 {% for i in jobs %}
                                                 {% if i.status|stringformat:"s" == "Pending" %}
                                                 <tr>
-                                                    <td>{{ i.job_id }}</td>
+                                                    <td><a href="{% url 'jobspareparts' i.id %}">{{ i.job_id }}</a></td>
                                                     <td>{{ i.brand_name }}</td>
                                                     <td>{{ i.model_name }}</td>
                                                     <td>{{ i.make_year }}</td>

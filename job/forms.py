@@ -1,5 +1,5 @@
 from django import forms
-from .models import Job
+from .models import Job, JobSparePart
 
 class JobForm(forms.ModelForm):
     
@@ -19,6 +19,21 @@ class JobForm(forms.ModelForm):
         
     def __init__(self, *args, **kwargs):
         super(JobForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control form-control-lg'
+            self.fields[field].widget.attrs['placeholder'] = field.replace('_', ' ').title()
+            
+class JobSparePartsForm(forms.ModelForm):
+    
+    class Meta:
+        model = JobSparePart
+        fields = ['spare_part_id', 'qty', 'cost_per_unit',]
+        
+    def clean(self):
+        cleaned_data = super(JobSparePartsForm, self).clean()
+        
+    def __init__(self, *args, **kwargs):
+        super(JobSparePartsForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control form-control-lg'
             self.fields[field].widget.attrs['placeholder'] = field.replace('_', ' ').title()
