@@ -43,4 +43,4 @@ class JobSparePart(models.Model):
     REQUIRED_FIELDS = ['spare_part_id', 'qty', 'cost_per_unit']
     
     def __str__(self) -> str:
-        return self.job_id
+        return str(self.spare_part_id)

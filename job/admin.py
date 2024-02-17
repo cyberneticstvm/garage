@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import JobStatus, Job
+from .models import JobStatus, Job, JobSparePart
 
 # Register your models here.
 
@@ -17,5 +17,13 @@ class JobAdmin(admin.ModelAdmin):
     list_filter = ()
     fieldsets = ()
     
+class JobSparePartAdmin(admin.ModelAdmin):
+    list_display = ('job_id', 'spare_part_id', 'qty', 'cost_per_unit', 'total', 'staff', 'created_at')
+    list_display_links = ('spare_part_id',)
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+    
 admin.site.register(JobStatus, JobStatusAdmin)
 admin.site.register(Job, JobAdmin)
+admin.site.register(JobSparePart, JobSparePartAdmin)
