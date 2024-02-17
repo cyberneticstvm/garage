@@ -4,6 +4,10 @@ from .models import Job, Account, JobStatus, JobSparePart
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import random
+from django.http import HttpResponse
+from reportlab.pdfgen import canvas
+from datetime import date
+from django.db.models import Sum
 
 # Create your views here.
 
@@ -67,3 +71,66 @@ def jobsparepartsdelete(request, id):
     obj.delete()
     messages.success(request, "Spareparts Deleted Successfully")
     return redirect('jobspareparts', job.id)  
+
+@login_required(login_url = 'login')    
+def invoice(request, id):
+    job = get_object_or_404(Job, id=id)
+    customer = get_object_or_404(Account, id=job.user.id)
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="invoice.pdf"'
+    spares = JobSparePart.objects.filter(job_id=job.id).all()
+    
+    x_start = 200
+    y_start = 750
+    
+    p = canvas.Canvas(response)
+    
+    img_file = 'http://localhost:8000/static/admin/assets/images/logo-png.png'
+    
+    p.drawString(220, 770, "Super Car Garage")
+    p.drawString(240, 750, "Trivandrum")
+    p.drawString(200, 730, "Phone: +91 0123456789")
+    
+    p.drawString(50, 710, "-------------------------------------------------------------------------------------------------------------------------" )
+    
+    p.drawImage(img_file, x_start, y_start, width=120, preserveAspectRatio=True, mask='auto')
+    p.drawString(50, 690, "Customer Name:" + customer.first_name +" "+ customer.last_name)
+    p.drawString(400, 690, "Job ID:" + job.job_id)
+    p.drawString(50, 670, "Invoice No:" + str(job.id))
+    p.drawString(400, 670, "Invoice Date:"+ str(date.today().strftime("%B %d, %Y")) )
+    
+    p.drawString(240, 650, "INVOICE" )
+    
+    row_height = 20
+    column_width = 150
+    tot = 0
+    
+    data = [
+        ['SPARE NAME', 'QTY', 'COST', 'TOTAL'],
+    ]
+    tot = 0
+    for obj in spares:
+        data.append([obj.spare_part_id, obj.qty, obj.cost_per_unit, obj.total])
+        tot += float(obj.total)
+        
+    x = 50
+    y = 610
+    for row in data:
+        for item in row:
+            p.drawString(x, y, str(item))
+            x += column_width
+        x = 50
+        y -= row_height
+    
+    y += -10
+    
+    p.drawString(50, y, "-------------------------------------------------------------------------------------------------------------------------" )
+    y += -15    
+    p.drawString(50, y, '' )
+    p.drawString(200, y, '' )
+    p.drawString(350, y, 'Total' )
+    p.drawString(500, y, str(tot)+'0')
+    
+    p.showPage()
+    p.save()
+    return response

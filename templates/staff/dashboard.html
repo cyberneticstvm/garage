@@ -137,6 +137,7 @@
                                                     <th>Pickup Date</th>
                                                     <th>Job Assigned to</th>
                                                     <th>Status</th>
+                                                    <th>Invoice</th>
                                                     <th>Submitted On</th>
                                                 </tr>
                                             </thead>
@@ -153,6 +154,8 @@
                                                     <td>{{ i.pickup_date }}</td>
                                                     <td>{{ i.staff }}</td>
                                                     <td>{{ i.status }}</td>
+                                                    <td class="text-center"><a href="{% url 'invoice' i.id %}"><i
+                                                                class="mdi mdi-file"></i></a></td>
                                                     <td>{{ i.created_at }}</td>
                                                 </tr>
                                                 {% endif %}
