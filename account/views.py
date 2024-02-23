@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RegistrationForm
+from job.forms import JobForm
 from .models import Account
 from job.models import Job
 from django.contrib import messages, auth
@@ -112,3 +113,17 @@ def logout(request):
     auth.logout(request)
     messages.success(request, "You've logged out successfully")
     return redirect('login')
+
+@login_required(login_url = 'login')
+def editjobstatus(request, id):
+        
+    if request.method == 'POST':
+        form = JobForm(request.POST)
+        status = request.POST.get('status')
+        Job.objects.filter(id=id).update(status=status)       
+        messages.success(request, "Job Status Updated Successfully")
+        return redirect('staffdashboard')
+    else:
+        form = JobForm(instance=get_object_or_404(Job, id=id))        
+    context = {'form': form, 'id': id}
+    return render(request, 'staff/edit-job.html', context)

@@ -1,0 +1,31 @@
+{% extends 'customer/base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    {% include 'alert.html' %}
+                    <form method="post" action="{% url 'editjobstatus' id %}" class="forms-sample">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Status</label>
+                                    {{ form.status }}
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary me-2">Update</button>
+                        <a class="btn btn-light" onclick="window.history.back()">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content-wrapper ends -->
+
+{% endblock %}

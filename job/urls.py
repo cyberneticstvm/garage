@@ -23,5 +23,7 @@ urlpatterns = [
     path('job-spare-parts/<id>', views.jobspareparts, name='jobspareparts'),
     path('job-spare-parts-create/<id>', views.jobsparepartscreate, name='jobsparepartscreate'),
     path('job-spare-parts-delete/<id>', views.jobsparepartsdelete, name='jobsparepartsdelete'),
+    path('buy-customer-spare-part', views.buysparepart, name='buysparepart'),
+    path('delete-customer-spare-part/<id>', views.customersparepartsdelete, name='customersparepartsdelete'),
     path('invoice/<id>', views.invoice, name='invoice'),
 ]

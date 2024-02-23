@@ -9,4 +9,4 @@ class Spareparts(models.Model):
     REQUIRED_FIELDS = ['spare_part_name', 'cost_per_unit']
     
     def __str__(self):
-        return str(self.spare_part_name) + ": ₹" + str(self.cost_per_unit)
+        return str(self.spare_part_name) + ": Rs." + str(self.cost_per_unit)

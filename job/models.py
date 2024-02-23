@@ -44,3 +44,28 @@ class JobSparePart(models.Model):
     
     def __str__(self) -> str:
         return str(self.spare_part_id)
+    
+class JobService(models.Model):
+    job_id = models.ForeignKey(Job, on_delete=models.RESTRICT, related_name='job_service', blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    fee = models.DecimalField(max_digits=7, decimal_places=2, default=0)
+    created_at  = models.DateTimeField(auto_now_add=True,)
+    updated_at  = models.DateTimeField(auto_now = True)
+    
+    REQUIRED_FIELDS = ['description', 'fee']
+    
+    def __str__(self) -> str:
+        return str(self.description)
+    
+class CustomerSparePart(models.Model):
+    customer_id = models.ForeignKey(Account, on_delete=models.RESTRICT, related_name='customer_spare_part', limit_choices_to={'is_customer': True}, blank=True, null=True)
+    spare_part_id = models.ForeignKey(Spareparts, on_delete=models.RESTRICT, related_name='sparepart_bought', blank=True, null=True)
+    qty = models.IntegerField(default=1)
+    created_at  = models.DateTimeField(auto_now_add=True,)
+    updated_at  = models.DateTimeField(auto_now = True)
+    
+    REQUIRED_FIELDS = ['spare_part_id', 'qty',]
+    
+    def __str__(self) -> str:
+        return str(self.spare_part_id)
+    

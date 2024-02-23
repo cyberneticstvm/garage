@@ -24,6 +24,7 @@ urlpatterns = [
     path('update', views.update, name='update'),
     path('login', views.login, name='login'),
     path('dashboard', views.dashboard, name='dashboard'),
+    path('editjobstatus/<id>', views.editjobstatus, name='editjobstatus'),
     path('staffdashboard', views.staffdashboard, name='staffdashboard'),
     path('changepassword', views.changePassword, name='changepwd'),
     path('logout', views.logout, name='logout'),

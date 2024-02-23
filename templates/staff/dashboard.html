@@ -63,7 +63,7 @@
                                                     <td>{{ i.job_description }}</td>
                                                     <td>{{ i.pickup_date }}</td>
                                                     <td>{{ i.staff }}</td>
-                                                    <td>{{ i.status }}</td>
+                                                    <td><a href="{% url 'editjobstatus' i.id %}">{{ i.status }}</a></td>
                                                     <td>{{ i.created_at }}</td>
                                                 </tr>
                                                 {% endfor %}
@@ -107,7 +107,7 @@
                                                     <td>{{ i.job_description }}</td>
                                                     <td>{{ i.pickup_date }}</td>
                                                     <td>{{ i.staff }}</td>
-                                                    <td>{{ i.status }}</td>
+                                                    <td><a href="{% url 'editjobstatus' i.id %}">{{ i.status }}</a></td>
                                                     <td>{{ i.created_at }}</td>
                                                 </tr>
                                                 {% endif %}
@@ -153,7 +153,7 @@
                                                     <td>{{ i.job_description }}</td>
                                                     <td>{{ i.pickup_date }}</td>
                                                     <td>{{ i.staff }}</td>
-                                                    <td>{{ i.status }}</td>
+                                                    <td><a href="{% url 'editjobstatus' i.id %}">{{ i.status }}</a></td>
                                                     <td class="text-center"><a href="{% url 'invoice' i.id %}"><i
                                                                 class="mdi mdi-file"></i></a></td>
                                                     <td>{{ i.created_at }}</td>

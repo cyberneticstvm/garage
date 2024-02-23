@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import JobForm, JobSparePartsForm
-from .models import Job, Account, JobStatus, JobSparePart
+from .forms import JobForm, JobSparePartsForm, CustomerSparePartForm
+from .models import Job, Account, JobStatus, JobSparePart, JobService, CustomerSparePart
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import random
@@ -36,7 +36,6 @@ def create(request):
     context = {'form': form,}
     return render(request, 'customer/job.html', context)
 
-
 @login_required(login_url = 'login')
 def jobspareparts(request, id):
     job = get_object_or_404(Job, id=id)
@@ -70,7 +69,32 @@ def jobsparepartsdelete(request, id):
     job = get_object_or_404(Job, job_id=obj.job_id)
     obj.delete()
     messages.success(request, "Spareparts Deleted Successfully")
-    return redirect('jobspareparts', job.id)  
+    return redirect('jobspareparts', job.id)
+
+@login_required(login_url = 'login')    
+def buysparepart(request):
+    spareparts = CustomerSparePart.objects.filter(customer_id=request.user.id)    
+    if request.method == "POST":
+        form = CustomerSparePartForm(request.POST)
+        if form.is_valid():
+            spare_part_id = form.cleaned_data['spare_part_id']
+            qty = form.cleaned_data['qty']
+            customer = get_object_or_404(Account, id=request.user.id)
+            CustomerSparePart.objects.create(customer_id=customer, spare_part_id=spare_part_id, qty=qty)
+            messages.success(request, 'Spare Part Purchased Successfully')
+            return redirect('buysparepart')
+    else:
+        form = CustomerSparePartForm()        
+    context = {'form': form, 'spareparts': spareparts}
+    return render(request, 'customer/spare-part.html', context)
+
+@login_required(login_url = 'login')  
+def customersparepartsdelete(request, id):
+    obj = get_object_or_404(CustomerSparePart, id=id)
+    obj.delete()
+    messages.success(request, "Spareparts Deleted Successfully")
+    return redirect('buysparepart')        
+  
 
 @login_required(login_url = 'login')    
 def invoice(request, id):
@@ -79,6 +103,7 @@ def invoice(request, id):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="invoice.pdf"'
     spares = JobSparePart.objects.filter(job_id=job.id).all()
+    services = JobService.objects.filter(job_id=job.id).all()
     
     x_start = 200
     y_start = 750
@@ -106,12 +131,16 @@ def invoice(request, id):
     tot = 0
     
     data = [
-        ['SPARE NAME', 'QTY', 'COST', 'TOTAL'],
+        ['DESCRIPTION', 'QTY', 'COST', 'TOTAL'],
     ]
     tot = 0
     for obj in spares:
         data.append([obj.spare_part_id, obj.qty, obj.cost_per_unit, obj.total])
         tot += float(obj.total)
+        
+    for ser in services:
+        data.append([ser.description, 1, ser.fee, ser.fee])
+        tot += float(ser.fee)
         
     x = 50
     y = 610

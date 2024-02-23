@@ -1,0 +1,63 @@
+{% extends 'customer/base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    {% include 'alert.html' %}
+                    <form method="post" action="{% url 'buysparepart' %}" class="forms-sample">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Spare Part</label>
+                                    {{ form.spare_part_id }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Qty</label>
+                                    {{ form.qty }}
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary me-2">Save</button>
+                        <a class="btn btn-light" onclick="window.history.back()">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 grid-margin stretch-card mt-5">
+            <div class="card">
+                <div class="card-body table-responsive">
+                    <h4 class="card-title">All Spare Parts bought by {{ user.first_name }}</h4>
+                    <table class="order-listing table table-sm table-striped" id="">
+                        <thead>
+                            <tr>
+                                <th>Spare Part Name</th>
+                                <th>Qty</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in spareparts %}
+                            <tr>
+                                <td>{{ i.spare_part_id }}</td>
+                                <td>{{ i.qty }}</td>
+                                <td class="text-center"><a href="{% url 'customersparepartsdelete' i.id %}"><i
+                                            class="mdi mdi-delete"></i></a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content-wrapper ends -->
+
+{% endblock %}
