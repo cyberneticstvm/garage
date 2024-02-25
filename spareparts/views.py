@@ -19,7 +19,10 @@ def create(request):
     else:
         form = SparepartsForm()
     context = {'form': form,}
-    return render(request, 'staff/sparepart-create.html', context)
+    if request.user.is_admin and request.user.is_superadmin:
+        return render(request, 'administrator/sparepart-create.html', context)
+    else:
+        return render(request, 'staff/sparepart-create.html', context)
 
 @login_required(login_url = 'login')
 def list(request):
@@ -28,7 +31,10 @@ def list(request):
     except spareparts.DoesNotExist:
         spareparts = None
     context = {'spareparts': spareparts,}
-    return render(request, 'staff/spareparts-list.html', context)
+    if request.user.is_admin and request.user.is_superadmin:
+        return render(request, 'administrator/spareparts-list.html', context)
+    else:
+        return render(request, 'staff/spareparts-list.html', context)
 
 @login_required(login_url = 'login')
 def edit(request, id):    
@@ -41,7 +47,10 @@ def edit(request, id):
     else:
         form = SparepartsForm(instance = get_object_or_404(Spareparts, id=id))
         context = {'form': form, 'id': id}
-        return render(request, 'staff/sparepart-edit.html', context)
+        if request.user.is_admin and request.user.is_superadmin:
+            return render(request, 'administrator/sparepart-edit.html', context)
+        else:
+            return render(request, 'staff/sparepart-edit.html', context)
     
 @login_required(login_url = 'login')
 def delete(request, id):

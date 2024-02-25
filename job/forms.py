@@ -1,5 +1,5 @@
 from django import forms
-from .models import Job, JobSparePart, JobService, CustomerSparePart, JobStatus
+from .models import Job, JobSparePart, JobService, CustomerSparePart, JobStatus, Account
 from django.db.models import Q
 
 class JobForm(forms.ModelForm):
@@ -11,6 +11,7 @@ class JobForm(forms.ModelForm):
         widget=forms.DateInput(attrs={'type': 'date',}),
     )
     status = forms.ModelChoiceField(JobStatus.objects.filter(~Q(status_name='Approved')))
+    staff = forms.ModelChoiceField(Account.objects.filter(is_staff=True))
     
     class Meta:
         model = Job

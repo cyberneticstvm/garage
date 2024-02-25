@@ -26,6 +26,12 @@ urlpatterns = [
     path('dashboard', views.dashboard, name='dashboard'),
     path('editjobstatus/<id>', views.editjobstatus, name='editjobstatus'),
     path('staffdashboard', views.staffdashboard, name='staffdashboard'),
+    path('admindashboard', views.admindashboard, name='admindashboard'),
+    path('createaccount', views.createaccount, name='createaccount'),
+    path('updateaccount/<id>', views.updateaccount, name='updateaccount'),
+    path('deleteaccount/<id>', views.deleteaccount, name='deleteaccount'),
+    path('jobregister', views.jobregister, name='jobregister'),
+    path('updatejob/<id>', views.updatejob, name='updatejob'),
     path('changepassword', views.changePassword, name='changepwd'),
     path('logout', views.logout, name='logout'),
 ]

@@ -34,7 +34,9 @@ def register(request):
 def edit(request):
     form = RegistrationForm(instance=request.user)
     context = {'form': form,}
-    if request.user.is_staff:
+    if request.user.is_admin and request.user.is_superadmin:
+        return render(request, 'administrator/profile-edit.html', context)
+    elif request.user.is_staff:
         return render(request, 'staff/profile-edit.html', context)
     else:
         return render(request, 'customer/profile-edit.html', context)
@@ -48,7 +50,9 @@ def update(request):
     
     Account.objects.filter(id=request.user.id).update(first_name = first_name, last_name = last_name, email = email, phone_number = phone_number, username = username)       
     messages.success(request, "Customer Details Updated Successfully")
-    if request.user.is_staff:
+    if request.user.is_admin and request.user.is_superadmin:
+        return redirect('admindashboard')
+    elif request.user.is_staff:
         return redirect('staffdashboard')
     else:
         return redirect('dashboard')
@@ -65,7 +69,9 @@ def changePassword(request):
         messages.success(request, "Password Updated Successfully")
         return redirect('dashboard')
     else:
-        if request.user.is_staff:
+        if request.user.is_admin and request.user.is_superadmin:
+            return render(request, 'administrator/change-password.html')
+        elif request.user.is_staff:
             return render(request, 'staff/change-password.html')
         else:
             return render(request, 'customer/change-password.html')
@@ -80,6 +86,10 @@ def login(request):
             auth.login(request, user)            
             messages.success(request, "You've logged in successfully")
             return redirect('dashboard')            
+        elif user is not None and user.is_admin and user.is_superadmin:
+            auth.login(request, user)            
+            messages.success(request, "You've logged in successfully")
+            return redirect('admindashboard')
         elif user is not None and user.is_staff:
             auth.login(request, user)            
             messages.success(request, "You've logged in successfully")
@@ -107,6 +117,86 @@ def staffdashboard(request):
         jobs = None
     context = {'jobs': jobs,}
     return render(request, 'staff/dashboard.html', context)
+
+@login_required(login_url = 'login')
+def admindashboard(request):
+    accounts = Account.objects.all()
+    context = {'accounts': accounts,}
+    return render(request, 'administrator/dashboard.html', context)
+
+@login_required(login_url = 'login')
+def jobregister(request):
+    jobs = Job.objects.all()
+    context = {'jobs': jobs,}
+    return render(request, 'administrator/jobs.html', context)
+
+@login_required(login_url = 'login')
+def updatejob(request, id):
+    if request.method == "POST":
+        brand_name = request.POST['brand_name']
+        model_name = request.POST['model_name']
+        make_year = request.POST['make_year']
+        color = request.POST['color']
+        pickup_required = request.POST['pickup_required']
+        pickup_address = request.POST['pickup_address']
+        pickup_date = request.POST['pickup_date']
+        job_description = request.POST['job_description']
+        status = request.POST['status']
+        staff = request.POST['staff']
+        Job.objects.filter(id=id).update(brand_name=brand_name, model_name=model_name, make_year=make_year, color=color, pickup_required=pickup_required, pickup_address=pickup_address, pickup_date=pickup_date, job_description=job_description, status=status, staff=staff)
+        messages.success(request, 'Service Request Updated Successfully')
+        return redirect('jobregister')
+    else:
+        form = JobForm(instance=Job.objects.get(id=id))
+        context = {'form': form, 'id': id}
+        return render(request, 'administrator/edit-job.html', context)
+
+@login_required(login_url = 'login')
+def createaccount(request):
+    if request.method == "POST":
+        form = RegistrationForm(request.POST)
+        if form.is_valid():            
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            email = form.cleaned_data['email']
+            phone_number = form.cleaned_data['phone_number']
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            
+            user = Account.objects.create_user(first_name = first_name, last_name = last_name, username = username, email = email, phone_number = phone_number, password = password)
+            user.is_active = True
+            user.is_staff = True
+            user.save()
+            messages.success(request, 'Staff Registration Successful')
+            return redirect('admindashboard')
+    else:
+        form = RegistrationForm()
+    context = {'form': form,}
+    return render(request, 'administrator/user-create.html', context)
+
+@login_required(login_url = 'login') 
+def updateaccount(request, id):
+    if request.method == "POST":
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        phone_number = request.POST.get('phone_number')           
+    
+        Account.objects.filter(id=id).update(first_name = first_name, last_name = last_name, email = email, phone_number = phone_number, username = username)       
+        messages.success(request, "Details Updated Successfully")
+        return redirect('admindashboard')
+    else:
+        form = RegistrationForm(instance=Account.objects.get(id=id))
+        context = {'form': form, 'id': id}
+        return render(request, 'administrator/user-edit.html', context)
+
+@login_required(login_url = 'login')
+def deleteaccount(request, id):
+    obj = get_object_or_404(Account, id=id)
+    obj.delete()
+    messages.success(request, "Account Deleted Successfully")
+    return redirect('admindashboard')  
 
 @login_required(login_url = 'login')    
 def logout(request):
