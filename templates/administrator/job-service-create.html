@@ -1,0 +1,37 @@
+{% extends 'administrator/base.html' %}
+{% block content %}
+{% load static %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="">
+                        <h5>Add Service for {{ job.job_id }}</h5>
+                    </div>
+                    {% include 'alert.html' %}
+                    <form method="post" action="{% url 'jobservice' id %}" class="forms-sample">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Service Description</label>
+                                    {{ form.description }}
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Fee</label>
+                                    {{ form.fee }}
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary me-2">Save</button>
+                        <a class="btn btn-light" onclick="window.history.back()">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

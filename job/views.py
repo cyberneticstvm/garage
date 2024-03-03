@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import JobForm, JobSparePartsForm, CustomerSparePartForm
+from .forms import JobForm, JobSparePartsForm, CustomerSparePartForm, JobServiceForm
 from .models import Job, Account, JobStatus, JobSparePart, JobService, CustomerSparePart
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -47,7 +47,10 @@ def jobspareparts(request, id):
     job = get_object_or_404(Job, id=id)
     spareparts = JobSparePart.objects.filter(job_id=id)
     context = {'job' : job, 'spareparts' : spareparts}
-    return render(request, 'staff/job-spare-parts.html', context)
+    if request.user.is_admin and request.user.is_superadmin:
+        return render(request, 'administrator/job-spare-parts.html', context)
+    else:
+        return render(request, 'staff/job-spare-parts.html', context)
         
     
 @login_required(login_url = 'login')
@@ -63,11 +66,17 @@ def jobsparepartscreate(request, id):
             staff = get_object_or_404(Account, id=request.user.id)
             JobSparePart.objects.create(job_id=job, spare_part_id=spare_part_id, qty=qty, cost_per_unit=cost_per_unit, total=total, staff=staff)
             messages.success(request, 'Spare Part Updated Successfully')
-            return redirect('jobspareparts', id)
+            if request.user.is_admin and request.user.is_superadmin:
+                return redirect('jobsparepartsadmin', id)
+            else:
+                return redirect('jobspareparts', id)
     else:
         form = JobSparePartsForm()
         context = {'job' : job, 'form' : form}
-        return render(request, 'staff/job-spare-parts-create.html', context)
+        if request.user.is_admin and request.user.is_superadmin:
+            return render(request, 'administrator/job-spare-parts-create.html', context)
+        else:
+            return render(request, 'staff/job-spare-parts-create.html', context)
     
 @login_required(login_url = 'login')    
 def jobsparepartsdelete(request, id):
@@ -75,7 +84,10 @@ def jobsparepartsdelete(request, id):
     job = get_object_or_404(Job, job_id=obj.job_id)
     obj.delete()
     messages.success(request, "Spareparts Deleted Successfully")
-    return redirect('jobspareparts', job.id)
+    if request.user.is_admin and request.user.is_superadmin:
+        return redirect('jobsparepartsadmin', job.id)
+    else:
+        return redirect('jobspareparts', job.id)
 
 @login_required(login_url = 'login')    
 def buysparepart(request):
@@ -99,7 +111,34 @@ def customersparepartsdelete(request, id):
     obj = get_object_or_404(CustomerSparePart, id=id)
     obj.delete()
     messages.success(request, "Spareparts Deleted Successfully")
-    return redirect('buysparepart')        
+    return redirect('buysparepart')     
+
+@login_required(login_url = 'login')
+def listjobservice(request):
+    services = JobService.objects.all()
+    context = {'services': services}
+    return render(request, 'administrator/job-service-list.html', context) 
+
+@login_required(login_url = 'login')  
+def jobservice(request, id):
+    if request.method == 'POST':
+        job = get_object_or_404(Job, id=id)
+        description = request.POST.get('description')
+        fee = request.POST.get('fee')
+        JobService.objects.create(job_id=job, description=description, fee=fee)
+        messages.success(request, "Spareparts Updated Successfully")
+        return redirect('listjobservice')
+    else:
+        form = JobServiceForm(instance = get_object_or_404(Job, id=id))
+        context = {'form': form, 'id': id}
+        return render(request, 'administrator/job-service-create.html', context)
+
+@login_required(login_url = 'login')
+def deleteservice(request, id):
+    obj = get_object_or_404(JobService, id=id)
+    obj.delete()
+    messages.success(request, "Service Deleted Successfully")
+    return redirect('listjobservice')   
   
 
 @login_required(login_url = 'login')    
