@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import JobForm, JobSparePartsForm, CustomerSparePartForm, JobServiceForm
 from .models import Job, Account, JobStatus, JobSparePart, JobService, CustomerSparePart
+from web.models import Callback
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import random
@@ -121,8 +122,8 @@ def listjobservice(request):
 
 @login_required(login_url = 'login')  
 def jobservice(request, id):
-    if request.method == 'POST':
-        job = get_object_or_404(Job, id=id)
+    job = get_object_or_404(Job, id=id)
+    if request.method == 'POST':        
         description = request.POST.get('description')
         fee = request.POST.get('fee')
         JobService.objects.create(job_id=job, description=description, fee=fee)
@@ -130,7 +131,7 @@ def jobservice(request, id):
         return redirect('listjobservice')
     else:
         form = JobServiceForm(instance = get_object_or_404(Job, id=id))
-        context = {'form': form, 'id': id}
+        context = {'form': form, 'job': job}
         return render(request, 'administrator/job-service-create.html', context)
 
 @login_required(login_url = 'login')
@@ -140,6 +141,11 @@ def deleteservice(request, id):
     messages.success(request, "Service Deleted Successfully")
     return redirect('listjobservice')   
   
+@login_required(login_url = 'login')  
+def clist(request):
+    callbacks = Callback.objects.all()
+    context = {'callbacks': callbacks}
+    return render(request, 'administrator/callback-list.html', context)
 
 @login_required(login_url = 'login')    
 def invoice(request, id):

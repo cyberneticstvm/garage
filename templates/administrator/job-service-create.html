@@ -10,7 +10,7 @@
                         <h5>Add Service for {{ job.job_id }}</h5>
                     </div>
                     {% include 'alert.html' %}
-                    <form method="post" action="{% url 'jobservice' id %}" class="forms-sample">
+                    <form method="post" action="{% url 'jobservice' job.id %}" class="forms-sample">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-md-6">

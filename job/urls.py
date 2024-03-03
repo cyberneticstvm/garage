@@ -29,5 +29,6 @@ urlpatterns = [
     path('job-service/<id>', views.jobservice, name='jobservice'),
     path('listjobservice', views.listjobservice, name='listjobservice'),
     path('deleteservice/<id>', views.deleteservice, name='deleteservice'),
+    path('clist', views.clist, name='clist'),
     path('invoice/<id>', views.invoice, name='invoice'),
 ]
