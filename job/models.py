@@ -13,7 +13,7 @@ class Job(models.Model):
     job_id = models.CharField(max_length=10, blank=True)
     brand_name = models.CharField(max_length=100, blank=True)
     model_name = models.CharField(max_length=50, blank=True)
-    make_year = models.CharField(max_length=5, blank=True)
+    make_year = models.IntegerField(blank=True)
     color = models.CharField(max_length=25, blank=True)
     job_description = models.TextField(blank=True)
     pickup_required = models.BooleanField(default=False)

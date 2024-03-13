@@ -100,6 +100,12 @@ def login(request):
     
     return render(request, 'login.html')
 
+def stafflogin(request):
+    return render(request, 'staff/login.html')
+
+def adminlogin(request):
+    return render(request, 'administrator/login.html')
+
 @login_required(login_url = 'login')
 def dashboard(request):
     try:

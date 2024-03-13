@@ -33,6 +33,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Job ID</th>
+                                                    <th>Customer</th>
                                                     <th>Brand</th>
                                                     <th>Model</th>
                                                     <th>Make Year</th>
@@ -50,6 +51,7 @@
                                                 {% for i in jobs %}
                                                 <tr>
                                                     <td><a href="{% url 'jobspareparts' i.id %}">{{ i.job_id }}</a></td>
+                                                    <td>{{ i.user }}</td>
                                                     <td>{{ i.brand_name }}</td>
                                                     <td>{{ i.model_name }}</td>
                                                     <td>{{ i.make_year }}</td>
@@ -61,7 +63,7 @@
                                                     <td>{{ i.status }}</td>
                                                     <td>{{ i.created_at }}</td>
                                                     <td class="text-center"><a href="{% url 'updatejob' i.id %}"><i
-                                                        class="mdi mdi-pencil"></i></a></td>
+                                                                class="mdi mdi-pencil"></i></a></td>
                                                 </tr>
                                                 {% endfor %}
                                             </tbody>

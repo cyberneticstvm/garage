@@ -41,6 +41,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Job ID</th>
+                                                    <th>Customer</th>
                                                     <th>Brand</th>
                                                     <th>Model</th>
                                                     <th>Make Year</th>
@@ -56,6 +57,7 @@
                                                 {% for i in jobs %}
                                                 <tr>
                                                     <td>{{ i.job_id }}</td>
+                                                    <td>{{ i.user }}</td>
                                                     <td>{{ i.brand_name }}</td>
                                                     <td>{{ i.model_name }}</td>
                                                     <td>{{ i.make_year }}</td>
