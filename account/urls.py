@@ -33,6 +33,7 @@ urlpatterns = [
     path('updateaccount/<id>', views.updateaccount, name='updateaccount'),
     path('deleteaccount/<id>', views.deleteaccount, name='deleteaccount'),
     path('jobregister', views.jobregister, name='jobregister'),
+    path('searchjob', views.searchjob, name='searchjob'),
     path('updatejob/<id>', views.updatejob, name='updatejob'),
     path('changepassword', views.changePassword, name='changepwd'),
     path('logout', views.logout, name='logout'),

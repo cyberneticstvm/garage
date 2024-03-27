@@ -223,3 +223,33 @@ def editjobstatus(request, id):
         form = JobForm(instance=get_object_or_404(Job, id=id))        
     context = {'form': form, 'id': id}
     return render(request, 'staff/edit-job.html', context)
+
+@login_required(login_url = 'login')
+def searchjob(request):
+    if request.method == "POST":
+        from_date = request.POST.get('from_date')
+        to_date = request.POST.get('to_date')
+        try:
+            if request.user.is_admin and request.user.is_superadmin:
+                data = Job.objects.filter(created_at__gte=from_date, created_at__lte=to_date)
+            elif request.user.is_staff:
+                data = Job.objects.filter(staff_id = request.user.id).filter(created_at__gte=from_date, created_at__lte=to_date)
+            else:
+                data = Job.objects.filter(user_id = request.user.id).filter(created_at__gte=from_date, created_at__lte=to_date)
+        except Job.DoesNotExist:
+            data = None
+        context = {'data': data,}
+        if request.user.is_admin and request.user.is_superadmin:            
+            return render(request, 'administrator/search.html', context)
+        elif request.user.is_staff:
+            return render(request, 'staff/search.html', context)
+        else:
+            return render(request, 'customer/search.html', context)       
+    else:
+        context = {'data': '',}
+        if request.user.is_admin and request.user.is_superadmin:            
+            return render(request, 'administrator/search.html', context)
+        elif request.user.is_staff:
+            return render(request, 'staff/search.html', context)
+        else:
+            return render(request, 'customer/search.html', context)

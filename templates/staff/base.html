@@ -62,12 +62,6 @@
                             <input type="text" class="form-control">
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <form class="search-form" action="#">
-                            <i class="icon-search"></i>
-                            <input type="search" class="form-control" placeholder="Search Here" title="Search here">
-                        </form>
-                    </li>
                     <li class="nav-item dropdown d-none d-lg-block user-dropdown">
                         <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                             <img class="img-xs rounded-circle"
@@ -132,7 +126,7 @@
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item nav-category">Spare Parts</li>
+                    <!--<li class="nav-item nav-category">Spare Parts</li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
                             aria-controls="ui-basic">
@@ -144,8 +138,23 @@
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link" href="{% url 'listsp' %}">Spare Parts List</a>
                                 </li>
-                                <!--<li class="nav-item"> <a class="nav-link" href="{% url 'createsp' %}">New Spare Part</a>
-                                </li>-->
+                                <li class="nav-item"> <a class="nav-link" href="{% url 'createsp' %}">New Spare Part</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>-->
+                    <li class="nav-item nav-category">Search Jobs</li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic1" aria-expanded="false"
+                            aria-controls="ui-basic1">
+                            <i class="menu-icon mdi mdi-floor-plan"></i>
+                            <span class="menu-title">Search Jobs</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="ui-basic1">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="{% url 'searchjob' %}">Search</a>
+                                </li>
                             </ul>
                         </div>
                     </li>
@@ -195,6 +204,7 @@
     <script src="{% static '/admin/assets/js/dashboard.js' %}"></script>
     <script src="{% static '/admin/assets/js/Chart.roundedBarCharts.js' %}"></script>
     <script src="{% static '/admin/assets/js/data-table.js' %}"></script>
+    <script src="{% static '/admin/assets/js/validation.js' %}"></script>
     <!-- End custom js for this page-->
 </body>
 

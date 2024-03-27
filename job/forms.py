@@ -64,6 +64,15 @@ class CustomerSparePartForm(forms.ModelForm):
         
     def clean(self):
         cleaned_data = super(CustomerSparePartForm, self).clean()
+        spare_part_id = self.cleaned_data.get('spare_part_id')
+        qty = self.cleaned_data.get('qty')
+        if not spare_part_id:
+            self._errors['spare_part_name'] = self.error_class([
+                'Please select spare part'])
+        if not qty:
+            self._errors['qty'] = self.error_class([
+                'Please enter valid Qty'])
+        return cleaned_data
         
     def __init__(self, *args, **kwargs):
         super(CustomerSparePartForm, self).__init__(*args, **kwargs)

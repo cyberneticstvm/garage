@@ -23,3 +23,4 @@ class RegistrationForm(forms.ModelForm):
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control form-control-lg'
             self.fields[field].widget.attrs['placeholder'] = field.replace('_', ' ').title()
+            
