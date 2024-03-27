@@ -10,7 +10,7 @@
                         <h5>Add Service for {{ job.job_id }}</h5>
                     </div>
                     {% include 'alert.html' %}
-                    <form method="post" action="{% url 'jobservice' job.id %}" class="forms-sample">
+                    <form method="post" action="{% url 'jobservice' job.id %}" class="forms-sample" id="frmJobService">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-md-6">
@@ -26,8 +26,8 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary me-2">Save</button>
-                        <a class="btn btn-light" onclick="window.history.back()">Cancel</a>
+                        <button type="submit" class="btn btn-primary me-2" onclick="return validateForm8()">Add</button>
+                        <a class="btn btn-dark" onclick="window.history.back()">Back</a>
                     </form>
                 </div>
             </div>

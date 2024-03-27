@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-body">
                     {% include 'alert.html' %}
-                    <form method="post" action="{% url 'updateaccount' id %}" class="forms-sample">
+                    <form method="post" action="{% url 'updateaccount' id %}" class="forms-sample" id="#frmProfileEdit">
                         {% csrf_token %}
                         <div class="row">
                             <div class="form-group col-3">
@@ -31,8 +31,9 @@
                                 {{ form.username }}
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary me-2">Update</button>
-                        <a class="btn btn-light" onclick="window.history.back()">Cancel</a>
+                        <button type="submit" class="btn btn-primary me-2"
+                            onclick="return validateForm4()">Update</button>
+                        <a class="btn btn-dark" onclick="window.history.back()">Back</a>
                     </form>
                 </div>
             </div>

@@ -10,7 +10,8 @@
                         <h5>Add Spareparts for {{ job.job_id }}</h5>
                     </div>
                     {% include 'alert.html' %}
-                    <form method="post" action="{% url 'jobsparepartscreate' job.id %}" class="forms-sample">
+                    <form method="post" action="{% url 'jobsparepartscreate' job.id %}" class="forms-sample"
+                        id="frmJobSP">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-md-6">
@@ -32,8 +33,8 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary me-2">Save</button>
-                        <a class="btn btn-light" onclick="window.history.back()">Cancel</a>
+                        <button type="submit" class="btn btn-primary me-2" onclick="return validateForm6()">Add</button>
+                        <a class="btn btn-dark" onclick="window.history.back()">Back</a>
                     </form>
                 </div>
             </div>

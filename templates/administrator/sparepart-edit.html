@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-body">
                     {% include 'alert.html' %}
-                    <form method="post" action="{% url 'editsp' id %}" class="forms-sample">
+                    <form method="post" action="{% url 'editsp' id %}" class="forms-sample" id="frmSP">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-md-6">
@@ -23,8 +23,9 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary me-2">Update</button>
-                        <a class="btn btn-light" onclick="window.history.back()">Cancel</a>
+                        <button type="submit" class="btn btn-primary me-2"
+                            onclick="return validateForm7()">Update</button>
+                        <a class="btn btn-dark" onclick="window.history.back()">Back</a>
                     </form>
                 </div>
             </div>

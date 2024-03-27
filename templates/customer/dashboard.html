@@ -33,7 +33,7 @@
                 <div class="tab-content tab-content-basic">
                     <div class="tab-pane fade show active" id="alljobs" role="tabpanel" aria-labelledby="alljobs">
                         <div class="row">
-                            <div class="col-lg-12 grid-margin stretch-card">
+                            <div class="col-lg-8 grid-margin stretch-card">
                                 <div class="card">
                                     <div class="card-body table-responsive">
                                         <h4 class="card-title">All Jobs</h4>
@@ -66,6 +66,34 @@
                                                     <td>{{ i.status }}</td>
                                                     <td>{{ i.created_at }}</td>
                                                 </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body table-responsive">
+                                        <h4 class="card-title">Job Approved Notification</h4>
+                                        <table class="table table-sm table-striped" id="">
+                                            <thead>
+                                                <tr>
+                                                    <th>Job ID</th>
+                                                    <th>Status</th>
+                                                    <th>Invoice</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for i in jobs %}
+                                                {% if i.status|stringformat:"s" == "Approved" %}
+                                                <tr>
+                                                    <td>{{ i.job_id }}</td>
+                                                    <td>{{ i.status }}</td>
+                                                    <td class="text-center"><a href="{% url 'invoice' i.id %}"><i
+                                                                class="mdi mdi-file"></i></a></td>
+                                                </tr>
+                                                {% endif %}
                                                 {% endfor %}
                                             </tbody>
                                         </table>
