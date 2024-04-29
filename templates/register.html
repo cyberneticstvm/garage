@@ -12,7 +12,8 @@
                         </div>
                         <h4>Register to continue.</h4>
                         {% include 'alert.html' %}
-                        <form method="post" action="{% url 'register' %}" class="forms-sample">
+                        <form method="post" action="{% url 'register' %}" class="forms-sample" id="regForm"
+                            name="regForm">
                             {% csrf_token %}
                             <div class="form-group">
                                 <label for="exampleInputUsername1">First Name</label>
@@ -42,7 +43,8 @@
                                 <label for="exampleInputConfirmPassword1">Confirm Password</label>
                                 {{ form.confirm_password }}
                             </div>
-                            <button type="submit" class="btn btn-primary me-2">Register</button>
+                            <button type="submit" class="btn btn-primary me-2"
+                                onclick="return validateForm()">Register</button>
                             <a class="btn btn-light" onclick="window.history.back()">Cancel</a>
                         </form>
                         <div class="text-center mt-4 fw-light">
@@ -60,4 +62,14 @@
     </div>
     <!-- page-body-wrapper ends -->
 </div>
+<script>
+    function validateForm() {
+        let frm = document.forms["regForm"];
+        let phoneno = /^\d{10}$/;
+        if (!frm['phone_number'].value.match(phoneno)) {
+            alert("Invalid Phone Number");
+            return false;
+        }
+    }
+</script>
 {% endblock %}
