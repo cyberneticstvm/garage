@@ -10,7 +10,8 @@ class JobForm(forms.ModelForm):
     pickup_date = forms.DateField(
         widget=forms.DateInput(attrs={'type': 'date',}),
     )
-    status = forms.ModelChoiceField(JobStatus.objects.filter(~Q(status_name='Approved')))
+    #status = forms.ModelChoiceField(JobStatus.objects.filter(~Q(status_name='Approved')))
+    status = forms.ModelChoiceField(JobStatus.objects.filter())
     staff = forms.ModelChoiceField(Account.objects.filter(is_staff=True))
     
     class Meta:
